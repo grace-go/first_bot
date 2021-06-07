@@ -1,5 +1,3 @@
-from discord import channel
-import discord
 from discord.ext import commands
 import random
 
@@ -52,6 +50,8 @@ bot = commands.Bot(command_prefix='!')
 
 @bot.command(name="description")
 async def description(ctx):
+    """description: gives a brief intro about this chatbot"""
+    
     await ctx.send("Hello, this is a menu-picking chatbot!")
     await ctx.send("If you want to get a recommendation randomly, type \"!pick\".")
     await ctx.send("If you want to get a recommendation by a budget, type \"!budget your_budget\".")
@@ -60,13 +60,16 @@ async def description(ctx):
 
 @bot.command(name="delivery")
 async def delivery(ctx):
+    """randomly chooses a delivery food"""
+
     deliver_list = ['Burger', 'Pizza', 'Pasta', 'Taco', 'Doughnuts', 'Pancake']
     await ctx.send("If you are tired and can't cook, food delivery is also a good choice!")
     await ctx.send(f'How about a {random.choice(deliver_list)}?')
 
-
 @bot.command(name="pick")
 async def pick(ctx):
+    """randomly recommends a menu to cook"""
+
     global menu_description
     await ctx.send("It's hard to choose which menu you are going to cook!")
     food_list = ['Carbonara', 'Jumbalaya', 'Frittata', 'Creamycodchowderstew']
@@ -75,10 +78,11 @@ async def pick(ctx):
     await ctx.send("a " + food + "?")
     menu_description.insert(0, food)
     await ctx.send("If you want to read a recipe of it, please type \"!yes\"")
-    
 
 @bot.command(name="yes")
 async def yes(ctx):
+    """gives a recipe for the previous randomly-chosen dish"""
+
     global recipe
     global menu_description
     await ctx.send(recipe.get(menu_description[0], 'Please type \"!pick\" first '))
@@ -89,6 +93,8 @@ async def yes(ctx):
 
 @bot.command(name="recipe")
 async def how_to_cook(ctx, dish: str):
+    """shows the recipe of a specific dish"""
+
     global recipe
     await ctx.send(dish)
     await ctx.send(recipe.get(dish, 'The recipe for this dish is not available :sweat_smile:'))
@@ -96,16 +102,18 @@ async def how_to_cook(ctx, dish: str):
 
 @bot.command(name="budget")
 async def budget(ctx, dollar: float):
+    """randomly recommends a food to cook according to the user's budget"""
+
     budget_under_five = ['Microwave Macaroni and Cheese', 'Cheeseburger Quesadillas', 'Chicken Sandwich', 'Potato Soup', 'Broccoli Rice']
     budget_under_ten = ['Sloppy Joes', 'Philly Cheesesteak Pasta Skillet', 'French Onion Frittata', 'Burrito', 'Tomato Spaghetti', 'Bulgogi']
     budget_under_twenty = ['Caprese Skillet Chicken', 'Ground Turkey Taco Salad', 'Pork Teriyaki Fried Rice', 'Lemon Pepper Chicken', 'Pork Carnitas']
     await ctx.send('It\'s hard to pick a menu by budget.')
     await ctx.send('But...')
-    if (dollar >= 20):
+    if dollar >= 20:
         await ctx.send(f'{random.choice(budget_under_twenty)}')
-    elif (dollar >= 10):
+    elif dollar >= 10:
         await ctx.send(f'{random.choice(budget_under_ten)}')
-    elif (dollar >= 5):
+    elif dollar >= 5:
         await ctx.send(f'{random.choice(budget_under_five)}')
     await ctx.send('will be a great choice for your budget!')
 
