@@ -54,6 +54,7 @@ bot = commands.Bot(command_prefix='!')
 async def description(ctx):
     await ctx.send("Hello, this is a menu-picking chatbot!")
     await ctx.send("If you want to get a recommendation randomly, type \"!pick\".")
+    await ctx.send("If you want to get a recommendation by a budget, type \"!budget your_budget\".")
     await ctx.send("If you want to know the recipe of a specific menu, type \"!recipe menu_name\"")
     await ctx.send("When you type a menu_name, please type it without a whitespace!")
 
