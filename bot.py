@@ -41,20 +41,34 @@ recipe['Frittata2'] += '\nSTEP 8\nBaked mini frittata option: Let the cooked veg
 recipe['Frittata2'] += '\nSTEP 9\nBake for 13 to 17 minutes, until the eggs are puffed and appear cooked, and the center of the frittatas jiggle just a bit when you give the pan a gentle shimmy (this happens quickly so keep an eye on them; my pan with only 6 muffins finished sooner). Remove the pans from the oven and place them on a cooling rack to cool. Garnish with herbs, and serve.'
 recipe['Frittata2'] += '\n from https://cookieandkate.com/best-frittata-recipe/'
 
+recipe['Creamycodchowderstew'] = 'Ingredients: 200g floury potatoes(cubed), 200g parsnips(cubed), 140g skinless cod fillet, 140g skinless undyed smoked haddock fillets, 500ml semi-skimmed milk, ¼ small pack parsley , leaves finely chopped, stalks reserved, 6 spring onions , whites and greens separated, both finely chopped, 2 tbsp plain flour, zest and juice 1 lemon, 2 tbsp chopped parsley, and crusty wholemeal bread , to serve'
+recipe['Creamycodchowderstew'] += '\nSTEP 1\nBring a saucepan of salted water to the boil, add the potato and parsnips, and boil until almost tender – about 4 mins. Drain well.'
+recipe['Creamycodchowderstew'] += '\nSTEP 2\nMeanwhile, put the fish in a pan where they will fit snugly but not on top of each other. Cover with the milk, poke in the parsley stalks and bring the milk to a gentle simmer. Cover the pan, turn off the heat and leave to sit in the milk for 5 mins. Lift the fish out and break into large chunks. Discard the parsley stalks but keep the milk.'
+recipe['Creamycodchowderstew2'] = '\nSTEP 3\nPut the spring onion whites, milk and flour in a saucepan together. Bring to a simmer, whisking continuously, until the sauce has thickened and become smooth. Turn the heat down, add the drained potatoes and parsnips, the lemon zest and half the juice, and cook gently for 5 mins, stirring occasionally. Stir in the spring onion greens, fish and parsley, and taste for seasoning – it will need plenty of pepper, some salt and maybe more lemon juice from the leftover half. Divide between two shallow bowls, serve with chunks of crusty bread and enjoy.'
+recipe['Creamycodchowderstew2'] += '\n from https://www.bbcgoodfood.com/recipes/creamy-cod-chowder-stew'
+
+
 bot = commands.Bot(command_prefix='!')
 
 @bot.command(name="description")
 async def description(ctx):
     await ctx.send("Hello, this is a menu-picking chatbot!")
     await ctx.send("If you want to get a recommendation randomly, type \"!pick\".")
-    await ctx.send("If you want to know the recipe of a specific menu, type \"!menu_name\"")
+    await ctx.send("If you want to know the recipe of a specific menu, type \"!recipe menu_name\"")
+    await ctx.send("When you type a menu_name, please type it without a whitespace!")
+
+@bot.command(name="delivery")
+async def delivery(ctx):
+    deliver_list = ['Burger', 'Pizza', 'Pasta', 'Taco', 'Doughnuts', 'Pancake']
+    await ctx.send("If you are tired and can't cook, food delivery is also a good choice!")
+    await ctx.send(f'How about a {random.choice(deliver_list)}?')
 
 
 @bot.command(name="pick")
 async def pick(ctx):
     global menu_description
     await ctx.send("It's hard to choose which menu you are going to cook!")
-    food_list = ['Carbonara', 'Jumbalaya', 'Frittata']
+    food_list = ['Carbonara', 'Jumbalaya', 'Frittata', 'Creamycodchowderstew']
     food = random.choice(food_list)
     await ctx.send("How about...")
     await ctx.send("a " + food + "?")
@@ -68,27 +82,17 @@ async def yes(ctx):
     global menu_description
     await ctx.send(recipe.get(menu_description[0], 'Please type \"!pick\" first '))
     await ctx.send(recipe.get((menu_description[0] + '2'), 'and check out the randomly picked menu!'))
+    await ctx.send('Wanna check another menu? Please type \"!pick\" and check out another menu and its recipe!')
     # await ctx.send("and here is the photo of the menu!")
     # await ctx.send(file=discord.File('pasta.jpg'))
 
-
-@bot.command(name="Carbonara")
-async def carbonara(ctx):
+@bot.command(name="recipe")
+async def how_to_cook(ctx, dish: str):
     global recipe
-    await ctx.send(recipe['Carbonara'])
-    await ctx.send(recipe['Carbonara2'])
+    await ctx.send(dish)
+    await ctx.send(recipe.get(dish, 'The recipe for this dish is not available :sweat_smile:'))
+    await ctx.send(recipe.get(dish + '2', 'Please visit this chatbot later or try to search different recipe!'))
 
-@bot.command(name="Jumbalaya")
-async def jumbalaya(ctx):
-    global recipe
-    await ctx.send(recipe['Jumbalaya'])
-    await ctx.send(recipe['Jumbalaya2'])
-
-@bot.command(name="Frittata")
-async def frittata(ctx):
-    global recipe
-    await ctx.send(recipe['Frittata'])
-    await ctx.send(recipe['Frittata2'])
 
 # make sure to create a token file (in real life use env variables)
 with open("BOT_TOKEN.txt", "r") as token_file:
