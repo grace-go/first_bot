@@ -93,6 +93,20 @@ async def how_to_cook(ctx, dish: str):
     await ctx.send(recipe.get(dish, 'The recipe for this dish is not available :sweat_smile:'))
     await ctx.send(recipe.get(dish + '2', 'Please visit this chatbot later or try to search different recipe!'))
 
+@bot.command(name="budget")
+async def budget(ctx, dollar: float):
+    budget_under_five = ['Microwave Macaroni and Cheese', 'Cheeseburger Quesadillas', 'Chicken Sandwich', 'Potato Soup', 'Broccoli Rice']
+    budget_under_ten = ['Sloppy Joes', 'Philly Cheesesteak Pasta Skillet', 'French Onion Frittata', 'Burrito', 'Tomato Spaghetti', 'Bulgogi']
+    budget_under_twenty = ['Caprese Skillet Chicken', 'Ground Turkey Taco Salad', 'Pork Teriyaki Fried Rice', 'Lemon Pepper Chicken', 'Pork Carnitas']
+    await ctx.send('It\'s hard to pick a menu by budget.')
+    await ctx.send('But...')
+    if (dollar >= 20):
+        await ctx.send(f'{random.choice(budget_under_twenty)}')
+    elif (dollar >= 10):
+        await ctx.send(f'{random.choice(budget_under_ten)}')
+    elif (dollar >= 5):
+        await ctx.send(f'{random.choice(budget_under_five)}')
+    await ctx.send('will be a great choice for your budget!')
 
 # make sure to create a token file (in real life use env variables)
 with open("BOT_TOKEN.txt", "r") as token_file:
