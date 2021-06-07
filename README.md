@@ -1,4 +1,4 @@
-# first_bot
+# Random menu generating chatbot
 ## Welcome to a menu-picking chatbot service!
 Does anyone have an experience having a hard time choosing your meal?
 This bot randomly recommends a menu that you can cook for today's meal.
